@@ -1,148 +1,97 @@
-# NeuralGate – Offline Face Authentication for Datalake 3.0
+This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
 
-A React Native mobile application that performs **liveness detection**, **face recognition**, and **offline‑first sync** entirely on the device. Built for the hackathon "Develop a mobile based secure offline facial recognition and liveness detection system for remote locations".
+# Getting Started
 
----
+> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
 
-## ✨ Features
+## Step 1: Start Metro
 
-- ✅ **Fully offline** – no internet required for authentication
-- ✅ **Liveness detection** – random challenges (blink, head turn, smile) to prevent spoofing
-- ✅ **Face recognition** – 512‑D embedding via MobileFaceNet (INT8 quantized, 4.5 MB)
-- ✅ **Encrypted local storage** – AES‑256‑CBC for all biometric data
-- ✅ **Automatic sync & purge** – uploads pending logs when network returns, then deletes local copies
-- ✅ **Cross‑platform** – Android 8.0+ and iOS 12+
+First, you will need to run **Metro**, the JavaScript build tool for React Native.
 
+To start the Metro dev server, run the following command from the root of your React Native project:
 
----
+```sh
+# Using npm
+npm start
 
-## 🛠️ Tech Stack
+# OR using Yarn
+yarn start
+```
 
-- React Native 0.85
-- react-native-vision-camera
-- react-native-quick-sqlite
-- react-native-aes-crypto
-- @react-native-community/netinfo
-- Google ML Kit (Face Detection – optional, fallback simulation used)
+## Step 2: Build and run your app
 
----
+With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
 
-## 🚀 Quick Start
+### Android
 
-### Prerequisites
-
-- Node.js 18+, JDK 17, Android Studio (for Android) or Xcode (for iOS)
-- Physical device or emulator with a front camera
-
-### Installation
-
-```bash
-git clone https://github.com/raneyash21/neuralgate.git
-cd neuralgate
-npm install
-Build for Android
-bash
-# If using a physical device via USB
-adb reverse tcp:8081 tcp:8081
-
-# Build and run
+```sh
+# Using npm
 npm run android
-Build for iOS
-bash
-cd ios && pod install && cd ..
+
+# OR using Yarn
+yarn android
+```
+
+### iOS
+
+For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
+
+The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
+
+```sh
+bundle install
+```
+
+Then, and every time you update your native dependencies, run:
+
+```sh
+bundle exec pod install
+```
+
+For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
+
+```sh
+# Using npm
 npm run ios
-📂 Project Structure
-text
-src/
-├── screens/
-│   ├── CameraScreen.tsx       # Liveness + authentication flow
-│   ├── EnrollmentScreen.tsx   # Face enrollment
-│   └── SyncDashboard.tsx      # Offline logs & sync UI
-├── services/
-│   ├── DatabaseService.ts     # SQLite operations (employees, logs)
-│   ├── EncryptionService.ts   # AES‑256 encryption utilities
-│   ├── SyncService.ts         # Auto‑sync & purge logic
-│   ├── FaceEmbedder.ts        # Mock embedding (production: TFLite)
-│   └── LivenessEngine.ts      # State machine for liveness challenges
-├── components/
-│   └── LivenessOverlay.tsx    # UI for challenge display
-└── modules/
-    └── FaceAnalyzer.ts        # ML Kit wrapper (optional)
-⚙️ Configuration
-1. Replace mock embedding with real TFLite (for production)
-Current FaceEmbedder.ts uses a deterministic mock. To use the real MobileFaceNet model:
 
-Place your mobilefacenet_int8.tflite file in src/assets/models/
+# OR using Yarn
+yarn ios
+```
 
-Implement pixel extraction (e.g., using react-native-pixel-manipulation)
+If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
 
-Replace generateMockEmbedding with actual TFLite inference
+This is one way to run your app — you can also build it directly from Android Studio or Xcode.
 
-2. Update AWS endpoint
-In SyncService.ts, change:
+## Step 3: Modify your app
 
-typescript
-const AWS_ENDPOINT = 'https://your-api-gateway-url.com/sync';
-For demo, the current endpoint (jsonplaceholder.typicode.com) accepts POST and returns 201 – works without real AWS.
+Now that you have successfully run the app, let's make changes!
 
-3. Adjust Android SDK versions
-These are already set in android/build.gradle and android/app/build.gradle:
+Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
 
-minSdkVersion = 26
+When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
 
-targetSdkVersion = 35
+- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
+- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
 
-compileSdkVersion = 36
+## Congratulations! :tada:
 
-📊 Performance (tested on Samsung A750F, Android 10, 3GB RAM)
-Operation	Time / Value
-Model size	4.5 MB
-Liveness (2 challenges)	~6 seconds
-Authentication (mock)	<1 second
-Sync (10 records on 4G)	~2 seconds
-App RAM usage	<150 MB
-Accuracy (mock, production‑ready architecture)	>95%
-Actual production embedding extraction would add ~300 ms, still under the 1 s constraint.
+You've successfully run and modified your React Native App. :partying_face:
 
-🧪 How to Test
-1. Enroll a face
-Go to Enroll tab (➕).
+### Now what?
 
-Enter a name (e.g., "Test User").
+- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
+- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
 
-Tap Enroll Face – camera takes a photo, stores a deterministic mock embedding.
+# Troubleshooting
 
-2. Authenticate
-Go to Camera tab (📷).
+If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
 
-Tap Start Liveness Check.
+# Learn More
 
-Follow the two random challenges (blink, head turn, or smile).
+To learn more about React Native, take a look at the following resources:
 
-After the challenges, the app captures a photo and matches it against enrolled faces.
-
-On success → attendance log saved.
-
-3. Offline sync
-Go to Sync tab (☁️).
-
-Tap + Mark Attendance to add pending records.
-
-Turn on Airplane Mode and add more records.
-
-Turn off Airplane Mode → after 2 seconds, auto‑sync runs → pending count becomes 0, logs turn green ("synced").
-
-📝 Submission Deliverables
-✅ Working prototype (this source code)
-
-✅ Technical documentation (PDF)
-
-✅ Presentation (PPTX / PDF)
-
-✅ README.md (this file)
-
-📄 License
-MIT – open source for hackathon submission.
-
-👥 Author
-Yash Rane – yashrane2102@gmail.com
+- [React Native Website](https://reactnative.dev) - learn more about React Native.
+- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
+- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
+- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
+- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
