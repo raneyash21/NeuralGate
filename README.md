@@ -37,7 +37,7 @@ A React Native mobile application that performs **liveness detection**, **face r
 ### Installation
 
 ```bash
-git clone https://github.com/yourusername/neuralgate.git
+git clone https://github.com/raneyash21/neuralgate.git
 cd neuralgate
 npm install
 Build for Android
